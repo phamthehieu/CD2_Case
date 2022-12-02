@@ -11,8 +11,8 @@ enum Status {
     C = 'maintenance'
 }
 
-let accountManage = new AccountManage()
-let roomManage = new RoomManage()
+let accountManage = new AccountManage();
+let roomManage = new RoomManage();
 let orderManage = new OrderManage();
 
 let readlineSync = require('readline-sync');
@@ -20,16 +20,22 @@ let test = new Account('12345678', '12345678', '1234567890', 'a@gmail.com', 'a@g
 let room1 = new Room('201', 1000, 4, 2, Status.A)
 let room2 = new Room('202', 800, 3, 2, Status.B)
 let room3 = new Room('203', 600, 1, 2, Status.C)
+let room4 = new Room('201', 1000, 4, 2, Status.A)
+let room5 = new Room('201', 800, 3, 2, Status.B)
+let room6 = new Room('201', 600, 1, 2, Status.C)
 accountManage.add(test)
 roomManage.addRoom(room1)
 roomManage.addRoom(room2)
 roomManage.addRoom(room3)
+roomManage.addRoom(room4)
+roomManage.addRoom(room5)
+roomManage.addRoom(room6)
 
 function mainLogIn() {
     let menu = `---------Menu chính-----------
     1.Sign in
     2.Sign up
-    0.Thoát chương trình`
+    0.Thoát chương trình `
     let choice = -1;
     do {
         console.log(menu)
@@ -41,7 +47,8 @@ function mainLogIn() {
             case 2:
                 register();
                 break;
-
+            case 0:
+                break;
         }
     } while (choice !== 0);
 }
@@ -92,6 +99,9 @@ function menuMain() {
             case 3:
                 orderMain();
                 break;
+            case 0:
+                mainLogIn()
+                break;
         }
     } while (choice !== 0);
 }
@@ -135,6 +145,9 @@ function roomMain() {
             case 6:
                 searchByName();
                 break;
+            case 0:
+                menuMain();
+                break;
         }
     } while (choice !== 0);
 }
@@ -149,7 +162,7 @@ function addRoom() {
      A: giá 1000 | 3 phòng ngủ | 1 nhà vệ sinh \n
      B: giá 800 | 2 phòng ngủ | 1 nhà vệ sinh\n
      C: giá 600 | 1 phòng ngủ | 1 nhà vệ sinh\n
-     D: gái 400 | 1 phòng ngủ\n
+     D: giá 400 | 1 phòng ngủ\n
      Status: drum | rented | maintenance
      `)
     let name = readlineSync.question('Enter NameRoom : ');
@@ -168,7 +181,7 @@ function editRoom() {
      A: giá 1000 | 3 phòng ngủ | 1 nhà vệ sinh \n
      B: giá 800 | 2 phòng ngủ | 1 nhà vệ sinh\n
      C: giá 600 | 1 phòng ngủ | 1 nhà vệ sinh\n
-     D: gái 400 | 1 phòng ngủ\n
+     D: giá 400 | 1 phòng ngủ\n
      Status: drum | rented | maintenance
      `)
     let name = readlineSync.question('Enter Name : ');
@@ -226,6 +239,8 @@ function orderMain() {
             case 5:
                 roomPayment();
                 break;
+            case 0:
+                menuMain();
         }
     } while (choice !== 0);
 }
