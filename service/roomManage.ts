@@ -8,7 +8,7 @@ enum Status {
 
 export class RoomManage {
     listRoom: Room[] = []
-
+    listRoomDrum: Room [] = []
     constructor() {
     }
 
@@ -70,22 +70,17 @@ export class RoomManage {
     }
 
     checkRoomDrum() {
-        let str = []
-        let a = ''
         for (let i = 0; i < this.listRoom.length; i++) {
             if (this.listRoom[i].status === Status.A) {
-                str.push(this.listRoom[i])
+                this.listRoomDrum.push(this.listRoom[i])
             }
         }
-        for (let i = 0; i < str.length; i++) {
-            a += `id: ${this.listRoom[i].id} | name: ${this.listRoom[i].name} | price: ${this.listRoom[i].price} | bedRoom: ${this.listRoom[i].Bedroom} | toilet: ${this.listRoom[i].toilet} | status: ${this.listRoom[i].status}\n`
-        }
-        return a;
+        return this.listRoomDrum;
     }
 
     changeStatus(roomName: string) {
         for (let i = 0; i < this.listRoom.length; i++) {
-            if (this.listRoom[i].status === roomName) {
+            if (this.listRoom[i].name === roomName) {
                 return this.listRoom[i].status = Status.B
             }
         }
@@ -105,5 +100,13 @@ export class RoomManage {
                 return this.listRoom[i].status = Status.A
             }
         }
+    }
+
+    roomDrum() {
+        let a = ''
+        for (let i = 0; i < this.listRoomDrum.length; i++) {
+            a += `id: ${this.listRoomDrum[i].id} | name: ${this.listRoomDrum[i].name} | price: ${this.listRoomDrum[i].price} | bedRoom: ${this.listRoomDrum[i].Bedroom} | toilet: ${this.listRoomDrum[i].toilet} | status: ${this.listRoomDrum[i].status}\n`
+        }
+        return a;
     }
 }

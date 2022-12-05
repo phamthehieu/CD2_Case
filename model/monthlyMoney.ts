@@ -1,17 +1,17 @@
-export class RoomCharge {
-    private _month: string;
+export class MonthlyMoney {
+    private _month : number;
     private _money: number;
 
-    constructor(month: string, money: number) {
+    constructor(month: number, money: number) {
         this._month = month;
         this._money = money;
     }
 
-    get month(): string {
+    get month(): number {
         return this._month;
     }
 
-    set month(value: string) {
+    set month(value: number) {
         this._month = value;
     }
 

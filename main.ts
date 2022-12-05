@@ -4,6 +4,8 @@ import {RoomManage} from "./service/roomManage";
 import {Room} from "./model/Room";
 import {OrderManage} from "./service/orderManage";
 import {Order} from "./model/order";
+import {MonthlyMoneyManage} from "./service/monthlymoneyManage";
+import {MonthlyMoney} from "./model/monthlyMoney";
 
 enum Status {
     A = 'drum',
@@ -14,15 +16,16 @@ enum Status {
 let accountManage = new AccountManage();
 let roomManage = new RoomManage();
 let orderManage = new OrderManage();
+let monthlyMoneyManage = new MonthlyMoneyManage();
 
 let readlineSync = require('readline-sync');
 let test = new Account('12345678', '12345678', '1234567890', 'a@gmail.com', 'a@gmail.com', 'a', 19)
 let room1 = new Room('201', 1000, 4, 2, Status.A)
 let room2 = new Room('202', 800, 3, 2, Status.B)
 let room3 = new Room('203', 600, 1, 2, Status.C)
-let room4 = new Room('201', 1000, 4, 2, Status.A)
-let room5 = new Room('201', 800, 3, 2, Status.B)
-let room6 = new Room('201', 600, 1, 2, Status.C)
+let room4 = new Room('204', 1000, 4, 2, Status.A)
+let room5 = new Room('205', 800, 3, 2, Status.B)
+let room6 = new Room('206', 600, 1, 2, Status.C)
 accountManage.add(test)
 roomManage.addRoom(room1)
 roomManage.addRoom(room2)
@@ -213,10 +216,11 @@ function searchByName() {
 function orderMain() {
     let menu = `---------Menu chính-----------
     1. Hiển thị danh sách phòng
-    2. Thêm phòng
+    2. Thuê phòng
     3. Xem số ngày đã thuê
     4. Sửa thông tin phòng
     5. Tính tiền phòng
+    6. Tổng thu nhập
     0. Thoát
     `
     let choice = -1;
@@ -239,6 +243,9 @@ function orderMain() {
             case 5:
                 roomPayment();
                 break;
+            case 6:
+                income();
+                break;
             case 0:
                 menuMain();
         }
@@ -247,7 +254,8 @@ function orderMain() {
 
 function addOrder() {
     console.log(`----------Danh sách phòng trống------------`)
-    console.log(roomManage.checkRoomDrum())
+    roomManage.checkRoomDrum()
+    console.log(roomManage.roomDrum())
     console.log(`----------Cho thuê phòng---------------`)
     console.log(`TimeStart: year/month/day`)
     let staff = readlineSync.question('Enter staff : ');
@@ -267,7 +275,7 @@ function checkDay() {
     console.log(orderManage.displayOrder())
     console.log(`TimeStart: year/month/day`)
     let roomName = readlineSync.question('Enter roomName : ');
-    console.log(`Ngày thuê quả bạn: ${orderManage.checkNumberOfDays(roomName)}`)
+    console.log(`Ngày thuê của bạn: ${orderManage.checkNumberOfDays(roomName)}`)
 }
 
 function roomPayment() {
@@ -277,6 +285,21 @@ function roomPayment() {
     let price = roomManage.checkPriceRoom(name);
     let time = orderManage.checkNumberOfDays(name);
     console.log(`Tiền cần thanh toán: ${orderManage.buyRoomPayment(price, time)}`)
+
+    let a = new Date()
+    let month: number = a.getMonth()
+    let money: number = orderManage.buyRoomPayment(price, time)
+    let t = new MonthlyMoney(month, money)
+    if (monthlyMoneyManage.listMonthlyMoney.length === 0) {
+        monthlyMoneyManage.add(t)
+    } else {
+        for (let i = 0; i < monthlyMoneyManage.listMonthlyMoney.length; i++) {
+            if (monthlyMoneyManage.listMonthlyMoney[i].month === month) {
+                monthlyMoneyManage.listMonthlyMoney[i].money += money;
+                break;
+            }
+        }
+    }
     roomManage.changeStatus1(name)
     orderManage.setDay(name)
 }
@@ -293,3 +316,37 @@ function editOrder() {
     let t = new Order(staff, renter, roomName, timeStart)
     orderManage.editOrder(name, t)
 }
+
+function checkMoneyMonth() {
+    console.log(`-------- Nhập tháng từ 0 => 11---------`)
+    let month = +readlineSync.question('Enter month : ');
+    console.log(monthlyMoneyManage.checkMoneyMonth(month))
+}
+
+function earnAll() {
+    console.log(`Tổng thu nhập: ${monthlyMoneyManage.totalMoney()}`)
+}
+
+function income() {
+    let menu = `---------Thu Nhập-----------
+    1. Hiển thị theo tháng
+    2. Tổng thu nhập tất cả
+    0.Thoát chương trình `
+    let choice = -1;
+    do {
+        console.log(menu)
+        choice = +readlineSync.question('Enter Choice : ');
+        switch (choice) {
+            case 1:
+                checkMoneyMonth();
+                break;
+            case 2:
+                earnAll();
+                break;
+            case 0:
+                break;
+        }
+    } while (choice !== 0);
+}
+
+income();
