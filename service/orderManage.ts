@@ -22,8 +22,7 @@ export class OrderManage {
         let c: number = 0
         for (let i = 0; i < this.listOrder.length; i++) {
             if (this.listOrder[i].roomName === roomName) {
-                let today = new Date().toISOString().slice(0, 10)
-                let endDate: any = today
+                let endDate: any = new Date().toISOString().slice(0, 10)
                 let a: any = new Date(this.listOrder[i].timeStart)
                 let b: any = new Date(endDate)
                 c = Math.floor((b - a) / (1000 * 60 * 60 * 24))
@@ -33,8 +32,7 @@ export class OrderManage {
     }
 
     buyRoomPayment(price: any, time: any) {
-        let total = Math.floor(price * time)
-        return total;
+        return Math.floor(price * time);
     }
 
     setDay(name: string) {

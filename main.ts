@@ -22,10 +22,11 @@ let readlineSync = require('readline-sync');
 let test = new Account('12345678', '12345678', '1234567890', 'a@gmail.com', 'a@gmail.com', 'a', 19)
 let room1 = new Room('201', 1000, 4, 2, Status.A)
 let room2 = new Room('202', 800, 3, 2, Status.B)
-let room3 = new Room('203', 600, 1, 2, Status.C)
+let room3 = new Room('203', 600, 1, 2, Status.A)
 let room4 = new Room('204', 1000, 4, 2, Status.A)
 let room5 = new Room('205', 800, 3, 2, Status.B)
 let room6 = new Room('206', 600, 1, 2, Status.C)
+
 accountManage.add(test)
 roomManage.addRoom(room1)
 roomManage.addRoom(room2)
@@ -66,9 +67,9 @@ function register() {
     let email = readlineSync.question('Enter email : ');
     let fullName = readlineSync.question('Enter fullName : ');
     let age = +readlineSync.question('Enter age : ');
-    let status = true;
     let account = new Account(userName, password, numberPhone, address, email, fullName, age)
     accountManage.registration(account)
+
 }
 
 function logInAccount() {
@@ -204,7 +205,8 @@ function removeRoom() {
 
 function searchByPrice() {
     let price = +readlineSync.question('Enter PriceRoom : ');
-    console.log(roomManage.searchRoomPrice(price))
+    roomManage.searchRoomPrice(price)
+    console.log(roomManage.displayRoomPrice())
 }
 
 function searchByName() {
@@ -344,6 +346,7 @@ function income() {
                 earnAll();
                 break;
             case 0:
+                orderMain();
                 break;
         }
     } while (choice !== 0);

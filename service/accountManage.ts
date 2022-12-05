@@ -14,7 +14,7 @@ export class AccountManage {
         let flag;
         if (this.listAccount.length === 0) {
             this.add(account);
-            console.log('Sucess!')
+            console.log('Success!')
         } else {
             for (let i = 0; i < this.listAccount.length; i++) {
                 flag = true;
@@ -43,7 +43,7 @@ export class AccountManage {
             }
             if (flag === true) {
                 this.add(account);
-                console.log('Sucess!')
+                console.log('Success!')
             }
         }
     }
@@ -64,13 +64,7 @@ export class AccountManage {
         return str;
     }
 
-    logIn(name
-              :
-              string, password
-              :
-              string
-    ):
-        number | undefined {
+    logIn(name: string, password: string): number | undefined {
         for (let i = 0; i < this.listAccount.length; i++) {
             if (this.listAccount[i].userName === name && this.listAccount[i].password === password && this.listAccount[i].status === true) {
                 return 1;

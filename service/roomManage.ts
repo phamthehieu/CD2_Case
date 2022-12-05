@@ -9,6 +9,8 @@ enum Status {
 export class RoomManage {
     listRoom: Room[] = []
     listRoomDrum: Room [] = []
+    listArr: Room[] = []
+
     constructor() {
     }
 
@@ -42,17 +44,20 @@ export class RoomManage {
     }
 
     searchRoomPrice(price: number) {
-        let arr = []
-        let str = ''
+
         for (let i = 0; i < this.listRoom.length; i++) {
             if (this.listRoom[i].price === price) {
-                arr.push(this.listRoom[i])
+                this.listArr.push(this.listRoom[i])
             }
         }
-        for (let i = 0; i < arr.length; i++) {
-            str += `id: ${this.listRoom[i].id} | name: ${this.listRoom[i].name} | price: ${this.listRoom[i].price} | bedRoom: ${this.listRoom[i].Bedroom} | toilet: ${this.listRoom[i].toilet} | status: ${this.listRoom[i].status}\n`
+    }
+
+    displayRoomPrice() {
+        let str =''
+        for (let i = 0; i < this.listArr.length; i++) {
+            str += `id: ${this.listArr[i].id} | name: ${this.listArr[i].name} | price: ${this.listArr[i].price} | bedRoom: ${this.listArr[i].Bedroom} | toilet: ${this.listArr[i].toilet} | status: ${this.listArr[i].status}\n`
         }
-        return str
+        return str;
     }
 
     searchByName(name: string) {
